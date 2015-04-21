@@ -10,7 +10,7 @@ int main(int argc, char** argv)
     Ocudump* ocudump = new Ocudump();
     for (int i = 0; i < 1e6; ++i) {
         pose = ocudump->getPose();
-        printf("Current orientation - pitch %0.2f, yaw %0.2f, roll %0.2f\n",pose[0],pose[1],pose[2]);
+        printf("Current pose - pitch %0.2f, yaw %0.2f, roll %0.2f, x %0.2f, y %0.2f, z %0.2f\n",pose[0],pose[1],pose[2],pose[3],pose[4],pose[5]);
 //                printf("status %d\n", state.StatusFlags);
 //                printf("myflag %d\n", ovrStatus_PositionTracked | ovrStatus_CameraPoseTracked | ovrStatus_PositionConnected);
 //        if (state.StatusFlags&ovrStatus_PositionTracked && state.StatusFlags&ovrStatus_CameraPoseTracked && state.StatusFlags&ovrStatus_PositionConnected) {

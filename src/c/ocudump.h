@@ -40,6 +40,7 @@ public:
 //        }
 public:
     ovrHmd hmd;
+    static std::vector<float> nanVec;
     OVR::Quatf orientation;
     std::vector<float> pose;
     bool positionTracked;
