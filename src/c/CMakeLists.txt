@@ -1,13 +1,20 @@
 # c src directory
 
 #################
-#TARGET: ocudump
+#TARGET: ocudump_lib
 #################
 #get the source files
 file(GLOB_RECURSE ocudump_c_src *.cpp *.cc *.h)
-#file(GLOB to_remove_main_function lm/main/MainMPI.cpp)
-#file(GLOB to_remove_neus lm/neus/*)
-#list(REMOVE_ITEM lm_c_source ${to_remove_main_function} ${to_remove_neus})
+file(GLOB sdkTest_src sdkTest.cpp)
+file(GLOB dumpTest_src dumpTest.cpp)
+list(REMOVE_ITEM ocudump_c_src ${sdkTest_src} ${dumpTest_src})
 
-add_executable(ocudump ${ocudump_c_src})
-TARGET_LINK_LIBRARIES(ocudump ${OCULUS_SDK_LIBRARIES})
+add_library(ocudump_lib STATIC ${ocudump_c_src})
+target_link_libraries(ocudump_lib ${OCULUS_SDK_LIBRARIES})
+
+#################
+#TARGET: sdkTest
+#################
+add_executable(sdkTest ${sdkTest_src})
+target_link_libraries(sdkTest ${OCULUS_SDK_LIBRARIES})
+set_target_properties(sdkTest PROPERTIES EXCLUDE_FROM_DEFAULT_BUILD TRUE EXCLUDE_FROM_ALL TRUE)

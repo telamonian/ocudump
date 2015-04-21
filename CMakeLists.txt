@@ -19,4 +19,26 @@ include_directories(src/c/
                     ${OCULUS_SDK_INCLUDE_DIRS})
 
 # add subdirectories
-add_subdirectory(src/c)             
+add_subdirectory(src/c)
+
+################
+#TARGET: dumpTest
+################
+set(dumpTest_src src/c/dumpTest.cpp)
+
+add_executable(dumpTest ${dumpTest_src})
+target_link_libraries(dumpTest ocudump_lib)
+
+# The following code is need to ensue that all objects from the custom static libraries are
+# linked in to the executable, even if they are not referenced from the main program.
+# Without this, static initialization of the ClassFactory does not work.
+IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    target_link_libraries(dumpTest -Wl,--whole-archive)
+    target_link_libraries(dumpTest ocudump_lib)
+    target_link_libraries(dumpTest -Wl,--no-whole-archive)
+ELSEIF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    target_link_libraries(dumpTest -Wl,-force_load)
+    target_link_libraries(dumpTest ocudump_lib)
+ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+
+#target_link_libraries(dumpTest)
