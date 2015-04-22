@@ -8,8 +8,8 @@ public:
     Ocudump();
     virtual ~Ocudump();
 
-    virtual void Init();
-    virtual std::vector<float> getPose();
+    virtual void init();
+    virtual void getPose();
 
 public:
     ovrHmd hmd;

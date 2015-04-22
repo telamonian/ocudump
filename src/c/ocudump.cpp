@@ -1,3 +1,4 @@
+#include <csignal>
 #include <cstdio>
 #include <cmath>
 #include <vector>
@@ -11,9 +12,9 @@ using std::vector;
 float nanArr[] = {NAN, NAN, NAN};
 vector<float> Ocudump::nanVec(nanArr, nanArr + (sizeof(nanArr)/sizeof(nanArr[0])));
 
-Ocudump::Ocudump(): hmd(NULL), pose(6,0)
+Ocudump::Ocudump(): hmd(NULL), pose(6,0), positionTracked(false)
 {
-    Init();
+    init();
 }
 
 Ocudump::~Ocudump()
@@ -22,20 +23,20 @@ Ocudump::~Ocudump()
     ovr_Shutdown();
 }
 
-void Ocudump::Init()
+void Ocudump::init()
 {
     if (ovr_Initialize(NULL))
     {
-        ovrHmd hmd = ovrHmd_Create(0);
+        hmd = ovrHmd_Create(0);
         if (!hmd || !ovrHmd_ConfigureTracking(hmd, ovrTrackingCap_Orientation | ovrTrackingCap_MagYawCorrection | ovrTrackingCap_Position, 0))
         {
             fprintf(stderr,"Unable to detect Rift head tracker");
-//                raise(SIGABRT);
+            raise(SIGABRT);
         }
     }
 }
 
-vector<float> Ocudump::getPose()
+void Ocudump::getPose()
 {
     state = ovrHmd_GetTrackingState(hmd, 0);
     // convert c-api quaternion to cpp-api quaternion so we can do the GetEulerAngles call bellow
@@ -47,11 +48,12 @@ vector<float> Ocudump::getPose()
         // ...and if it is, load the position data into the pose vector
 //        memcpy(pose.data()[3], &state.HeadPose.ThePose.Position.x, 3*sizeof(float));
         pose.insert(pose.begin()+3, &state.HeadPose.ThePose.Position.x, &state.HeadPose.ThePose.Position.x+3);
+        positionTracked = true;
     }
     else
     {
         // ...and if it isn't, fill the position entries in pose with NaN values
         pose.insert(pose.begin()+3, nanVec.begin(), nanVec.end());
+        positionTracked = false;
     }
-    return pose;
 }
