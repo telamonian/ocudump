@@ -9,7 +9,7 @@ A simple, fast C++ library for getting the complete pose information from an Ocu
 If are on OSX, I strongly recommend using Homebrew to install CMake and Python, and then using pip to install Cython
 
 # how to use
-- Get official OculusSDK and put it in your /usr/local directory
+- Get the official OculusSDK and put it in your /usr/local directory
 - In the ocudump root, execute the following commands
     - `mkdir build`
     - `cd build`
