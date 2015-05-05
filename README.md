@@ -8,7 +8,7 @@ A simple, fast C++ library for getting the complete pose information from an Ocu
 
 If are on OSX, I strongly recommend using Homebrew to install CMake and Python, and then using pip to install Cython
 
-# how to use
+# how to build
 - Get the official OculusSDK and put it in your /usr/local directory
 - In the ocudump root, execute the following commands
     - `mkdir build`
@@ -25,3 +25,5 @@ If are on OSX, I strongly recommend using Homebrew to install CMake and Python, 
     - `./dumpTest`
 - To test the python module, after you run `make ocudump_cython` in your build directory you can then run
     - `python dumpTest.py`
+
+# how to use
