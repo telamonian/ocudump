@@ -2,6 +2,8 @@
 #include "Extras/OVR_Math.h"
 #include "OVR_CAPI_0_5_0.h"
 
+namespace ocudump
+{
 class Ocudump
 {
 public:
@@ -19,3 +21,4 @@ public:
     bool positionTracked;
     ovrTrackingState state;
 };
+}

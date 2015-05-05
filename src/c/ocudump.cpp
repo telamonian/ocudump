@@ -1,6 +1,7 @@
+#include <cmath>
 #include <csignal>
 #include <cstdio>
-#include <cmath>
+#include <cstring>
 #include <vector>
 #include "Extras/OVR_Math.h"
 #include "ocudump.h"
@@ -8,8 +9,11 @@
 
 using std::vector;
 
-// initialize the static member vector nanVec, used for filling in the appropriate portion of the pose vector with NaN values when the camera fails to track the rift
 float nanArr[] = {NAN, NAN, NAN};
+
+namespace ocudump
+{
+// initialize the static member vector nanVec, used for filling in the appropriate portion of the pose vector with NaN values when the camera fails to track the rift
 vector<float> Ocudump::nanVec(nanArr, nanArr + (sizeof(nanArr)/sizeof(nanArr[0])));
 
 Ocudump::Ocudump(): hmd(NULL), pose(6,0), positionTracked(false)
@@ -46,14 +50,17 @@ void Ocudump::getPose()
     if (state.StatusFlags&ovrStatus_PositionTracked && state.StatusFlags&ovrStatus_CameraPoseTracked && state.StatusFlags&ovrStatus_PositionConnected)
     {
         // ...and if it is, load the position data into the pose vector
-//        memcpy(pose.data()[3], &state.HeadPose.ThePose.Position.x, 3*sizeof(float));
-        pose.insert(pose.begin()+3, &state.HeadPose.ThePose.Position.x, &state.HeadPose.ThePose.Position.x+3);
+//        pose.insert(pose.begin()+3, &state.HeadPose.ThePose.Position.x, &state.HeadPose.ThePose.Position.x+3);
+        memcpy(&pose.data()[3], &state.HeadPose.ThePose.Position.x, 3*sizeof(float));
+
         positionTracked = true;
     }
     else
     {
         // ...and if it isn't, fill the position entries in pose with NaN values
-        pose.insert(pose.begin()+3, nanVec.begin(), nanVec.end());
+//        pose.insert(pose.begin()+3, nanVec.begin(), nanVec.end());
+        memcpy(&pose.data()[3], &nanVec, 3*sizeof(float));
         positionTracked = false;
     }
+}
 }
