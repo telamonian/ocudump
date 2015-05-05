@@ -65,9 +65,10 @@ target_link_libraries(ocudump_cython ${ocudump_cython_libs})
 
 file(GLOB test_ocudump_py testOcudump.py)
 file(GLOB init_py __init__.py)
-file(COPY test_ocudump_py DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-file(COPY init_py DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/src)
-file(COPY init_py DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/src/cython)
+file(COPY ${test_ocudump_py} DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${init_py} DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${init_py} DESTINATION ${CMAKE_BINARY_DIR}/src)
+file(COPY ${init_py} DESTINATION ${CMAKE_BINARY_DIR}/src/cython)
 
 
 # If the pyx file is a C++ file, we should specify that here.
