@@ -1,5 +1,12 @@
 # ocudump
-A simple, fast C++ library for getting the complete pose information from an Oculus Rift, with Python bindings. Meant to be an easy starting place for Rift-based projects that don't require the rendering functionality of the OculusSDK. Used in the OcuMol-Leap project, which adds VR support to PyMol
+A simple, fast C++ library for getting the complete pose information from an Oculus Rift, with Python bindings. Meant to be an easy starting place for Rift-based projects that don't require the rendering functionality of the OculusSDK. Used in the OcuMol-Leap project, which adds VR support to PyMol. Tested on OSX, should work on Linux and Windows too.
+
+# dependencies
+- CMake
+- Cython (for the Python bindings)
+- OculusSDK (the official one)
+
+If are on OSX, I strongly recommend using Homebrew to install CMake and Python, and then using pip to install Cython
 
 # how to use
 - Get official OculusSDK and put it in your /usr/local directory
