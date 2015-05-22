@@ -16,9 +16,7 @@ If are on OSX, I strongly recommend using Homebrew to install CMake and Python, 
     - `cmake ..`
     - `make`
 - The c++ library will now be at {your_build_directory}/src/c/libocudump_lib.a
-- To make the Python bindings, also do
-    - `make ocudump_cython`
-- The python module will now be at {your_build_directory}/src/cython/ocudump_cython.so
+- The python module will now be at {your_build_directory}/src/cython/ocudump.so
 
 # how to test
 - To test the c++ library, after you run `make` in your build directory you can then run
@@ -27,9 +25,9 @@ If are on OSX, I strongly recommend using Homebrew to install CMake and Python, 
     - `python dumpTest.py`
 
 # how to use (Python bindings)
-- In order to use the Python bindings, copy the module at {your_build_directory}/src/cython/ocudump_cython.so into the same directory as your Python scripts (or for an interactive session, just run `python` in the same directory as ocudump_cython.so)
+- In order to use the Python bindings, copy the module at {your_build_directory}/src/cython/ocudump.so into the same directory as your Python scripts (or for an interactive session, just run `python` in the same directory as ocudump.so)
 - Import the Ocudump class from the ocudump module:
-    - `from ocudump_cython import Ocudump`
+    - `from ocudump import Ocudump`
 - Create an Ocudump instance (this will also initialize your Oculus Rift and it's tracking camera, so be sure to have them both plugged in at this point):
     - `o = Ocudump()`
 - Update the pose information contained in your Ocudump instance:
