@@ -5,6 +5,7 @@ A simple, fast C++ library for getting the complete pose information from an Ocu
 - CMake
 - Cython (for the Python bindings)
 - OculusSDK (the official one)
+- Oculus Runtime (make sure your runtime and SDK versions match)
 
 If are on OSX, I strongly recommend using Homebrew to install CMake and Python, and then using pip to install Cython
 
