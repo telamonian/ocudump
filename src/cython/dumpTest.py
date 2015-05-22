@@ -1,5 +1,7 @@
+#!/usr/bin/env python
+
 from time import sleep
-from src.cython.ocudump_cython import Ocudump
+from src.cython.ocudump import Ocudump
 
 if __name__=='__main__':
     o = Ocudump()

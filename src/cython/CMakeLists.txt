@@ -1,8 +1,8 @@
 ## Generate a single pair of .pyx and .pxd files from cython source tree
-set(pyx_fpath ${CMAKE_CURRENT_BINARY_DIR}/ocudump_cython.pyx)
-set(pyx_tmp_fpath ${CMAKE_CURRENT_BINARY_DIR}/ocudump_cython.pyx.tmp)
-set(pxd_fpath ${CMAKE_CURRENT_BINARY_DIR}/ocudump_cython.pxd)
-set(pxd_tmp_fpath ${CMAKE_CURRENT_BINARY_DIR}/ocudump_cython.pxd.tmp)
+set(pyx_fpath ${CMAKE_CURRENT_BINARY_DIR}/ocudump.pyx)
+set(pyx_tmp_fpath ${CMAKE_CURRENT_BINARY_DIR}/ocudump.pyx.tmp)
+set(pxd_fpath ${CMAKE_CURRENT_BINARY_DIR}/ocudump.pxd)
+set(pxd_tmp_fpath ${CMAKE_CURRENT_BINARY_DIR}/ocudump.pxd.tmp)
 
 # Cmake "cat" function definition
 function(cat IN_FILE OUT_FILE)
@@ -12,33 +12,33 @@ function(cat IN_FILE OUT_FILE)
 endfunction()
 
 # Prepare temporary .pyx and .pxd files to "cat" to:
-#file(REMOVE ocudump_cython.pyx.tmp "")
-#file(REMOVE ocudump_cython.pxd.tmp "")
+#file(REMOVE ocudump.pyx.tmp "")
+#file(REMOVE ocudump.pxd.tmp "")
 file(WRITE ${pyx_tmp_fpath} "")
 file(WRITE ${pxd_tmp_fpath} "")
 
 # Get two lists of all the .pyx and .pxd files by recursively globbing down the cython source tree
-file(GLOB_RECURSE ocudump_cython_pyxs *.pyx)
-file(GLOB_RECURSE ocudump_cython_pxds *.pxd)
+file(GLOB_RECURSE ocudump_pyxs *.pyx)
+file(GLOB_RECURSE ocudump_pxds *.pxd)
 
-file(GLOB to_remove_ocudump_cython_pyx ocudump_cython.pyx)
-if(to_remove_ocudump_cython_pyx)
-    list(REMOVE_ITEM ocudump_cython_pyxs ${to_remove_ocudump_cython_pyx})
-endif(to_remove_ocudump_cython_pyx)
+file(GLOB to_remove_ocudump_pyx ocudump.pyx)
+if(to_remove_ocudump_pyx)
+    list(REMOVE_ITEM ocudump_pyxs ${to_remove_ocudump_pyx})
+endif(to_remove_ocudump_pyx)
 
-file(GLOB to_remove_ocudump_cython_pxd ocudump_cython.pxd)
-if(to_remove_ocudump_cython_pxd)
-    list(REMOVE_ITEM ocudump_cython_pxds ${to_remove_ocudump_cython_pxd})
-endif(to_remove_ocudump_cython_pxd)
+file(GLOB to_remove_ocudump_pxd ocudump.pxd)
+if(to_remove_ocudump_pxd)
+    list(REMOVE_ITEM ocudump_pxds ${to_remove_ocudump_pxd})
+endif(to_remove_ocudump_pxd)
 
 # Call the "cat" function for each of the cython source files
-foreach(ocudump_cython_pyx ${ocudump_cython_pyxs})
-    cat(${ocudump_cython_pyx} ${pyx_tmp_fpath})
-endforeach(ocudump_cython_pyx ${ocudump_cython_pyxs})
+foreach(ocudump_pyx ${ocudump_pyxs})
+    cat(${ocudump_pyx} ${pyx_tmp_fpath})
+endforeach(ocudump_pyx ${ocudump_pyxs})
 
-foreach(ocudump_cython_pxd ${ocudump_cython_pxds})
-    cat(${ocudump_cython_pxd} ${pxd_tmp_fpath})
-endforeach(ocudump_cython_pxd ${ocudump_cython_pxds})
+foreach(ocudump_pxd ${ocudump_pxds})
+    cat(${ocudump_pxd} ${pxd_tmp_fpath})
+endforeach(ocudump_pxd ${ocudump_pxds})
 
 message(${CMAKE_CURRENT_BINARY_DIR})
 
@@ -57,11 +57,11 @@ set_source_files_properties(
     PROPERTIES CYTHON_IS_CXX TRUE)
 
 ## Build the actual cython .so file
-set(ocudump_cython_libs ocudump_lib)
+set(ocudump_libs ocudump_lib)
 
 # Multi-file cython modules do not appear to be working at the moment.
-cython_add_module(ocudump_cython ${pyx_fpath})
-target_link_libraries(ocudump_cython ${ocudump_cython_libs})
+cython_add_module(ocudump ${pyx_fpath})
+target_link_libraries(ocudump ${ocudump_libs})
 
 file(GLOB dumptest_py dumpTest.py)
 file(GLOB init_py __init__.py)
@@ -101,10 +101,10 @@ file(COPY ${init_py} DESTINATION ${CMAKE_BINARY_DIR}/src/cython)
 #    target_link_libraries(Hdf5File ${LM_C_LIB})
 #ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 #
-#target_link_libraries(ReactionModel ${ocudump_cython_libs})
-#target_link_libraries(Hdf5File ${ocudump_cython_libs})
+#target_link_libraries(ReactionModel ${ocudump_libs})
+#target_link_libraries(Hdf5File ${ocudump_libs})
 #
-#cython_add_module(ocudump_cython test/ReactionModel.pyx)
-#target_link_libraries(ocudump_cython ${ocudump_cython_libs})
+#cython_add_module(ocudump test/ReactionModel.pyx)
+#target_link_libraries(ocudump ${ocudump_libs})
 
 #cython_add_modulehdf5 hdf5.pyx ${CMAKE_CURRENT_SOURCE_DIR}/src/c/lm/io/hdf5/SimulationFile.cpp)
