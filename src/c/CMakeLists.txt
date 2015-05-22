@@ -6,7 +6,7 @@
 #get the source files
 file(GLOB_RECURSE ocudump_c_src *.cpp *.cc *.h)
 file(GLOB sdkTest_src sdkTest.cpp)
-file(GLOB dumpTest_src dumpTest.cpp)
+file(GLOB dumpTest_src dumpTest.cpp dumpTestDebug.cpp)
 list(REMOVE_ITEM ocudump_c_src ${sdkTest_src} ${dumpTest_src})
 
 add_library(ocudump_lib STATIC ${ocudump_c_src})

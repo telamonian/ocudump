@@ -14,33 +14,20 @@ float nanArr[] = {NAN, NAN, NAN};
 namespace ocudump
 {
 // initialize the static member vector nanVec, used for filling in the appropriate portion of the pose vector with NaN values when the camera fails to track the rift
-vector<float> Ocudump::nanVec(nanArr, nanArr + (sizeof(nanArr)/sizeof(nanArr[0])));
+vector<float> OcudumpBase::nanVec(nanArr, nanArr + (sizeof(nanArr)/sizeof(nanArr[0])));
 
-Ocudump::Ocudump(): hmd(NULL), pose(6,0), positionTracked(false)
+OcudumpBase::OcudumpBase(): hmd(NULL), pose(6,0), positionTracked(false)
 {
-    init();
+
 }
 
-Ocudump::~Ocudump()
+OcudumpBase::~OcudumpBase()
 {
     ovrHmd_Destroy(hmd);
     ovr_Shutdown();
 }
 
-void Ocudump::init()
-{
-    if (ovr_Initialize(NULL))
-    {
-        hmd = ovrHmd_Create(0);
-        if (!hmd || !ovrHmd_ConfigureTracking(hmd, ovrTrackingCap_Orientation | ovrTrackingCap_MagYawCorrection | ovrTrackingCap_Position, 0))
-        {
-            fprintf(stderr,"Unable to detect Rift head tracker");
-            raise(SIGABRT);
-        }
-    }
-}
-
-void Ocudump::getPose()
+void OcudumpBase::getPose()
 {
     state = ovrHmd_GetTrackingState(hmd, 0);
     // convert c-api quaternion to cpp-api quaternion so we can do the GetEulerAngles call bellow
@@ -61,6 +48,42 @@ void Ocudump::getPose()
 //        pose.insert(pose.begin()+3, nanVec.begin(), nanVec.end());
         memcpy(&pose.data()[3], &nanVec, 3*sizeof(float));
         positionTracked = false;
+    }
+}
+
+Ocudump::Ocudump(): OcudumpBase()
+{
+    init();
+}
+
+void Ocudump::init()
+{
+    if (ovr_Initialize(NULL))
+    {
+        hmd = ovrHmd_Create(0);
+        if (!hmd || !ovrHmd_ConfigureTracking(hmd, ovrTrackingCap_Orientation | ovrTrackingCap_MagYawCorrection | ovrTrackingCap_Position, 0))
+        {
+            fprintf(stderr,"Unable to detect Rift head tracker");
+            raise(SIGABRT);
+        }
+    }
+}
+
+OcudumpDebug::OcudumpDebug(): OcudumpBase()
+{
+    init();
+}
+
+void OcudumpDebug::init()
+{
+    if (ovr_Initialize(NULL))
+    {
+        hmd = ovrHmd_CreateDebug(ovrHmd_DK2);
+        if (!hmd || !ovrHmd_ConfigureTracking(hmd, ovrTrackingCap_Orientation | ovrTrackingCap_MagYawCorrection | ovrTrackingCap_Position, 0))
+        {
+            fprintf(stderr,"Unable to detect Rift head tracker");
+            raise(SIGABRT);
+        }
     }
 }
 }
