@@ -84,4 +84,6 @@ if(CYTHON_FOUND)
     include(UseCython)  ###cython
     
     add_subdirectory(src/cython)
+else(CYTHON_FOUND)
+    message("Cython not found, python bindings won't be built")
 endif(CYTHON_FOUND)
