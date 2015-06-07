@@ -3,6 +3,7 @@
 # This code sets the following variables:
 #
 #  CYTHON_EXECUTABLE
+#  CYTHON_FOUND        - True if Cython found.
 #
 # See also UseCython.cmake
 
@@ -39,6 +40,6 @@ endif()
 
 
 include( FindPackageHandleStandardArgs )
-FIND_PACKAGE_HANDLE_STANDARD_ARGS( Cython REQUIRED_VARS CYTHON_EXECUTABLE )
+FIND_PACKAGE_HANDLE_STANDARD_ARGS( Cython DEFAULT_MSG CYTHON_EXECUTABLE )
 
 mark_as_advanced( CYTHON_EXECUTABLE )

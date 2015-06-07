@@ -1,8 +1,8 @@
 cmake_minimum_REQUIRED(VERSION 3.0.2)
-SET(CMAKE_C_COMPILER gcc)
-SET(CMAKE_CXX_COMPILER g++)
+set(CMAKE_C_COMPILER gcc)
+set(CMAKE_CXX_COMPILER g++)
 
-SET(OCULUS_SDK_ROOT_DIR /usr/local/OculusSDK CACHE PATH "Path where to find the Oculus SDK")
+set(OCULUS_SDK_ROOT_DIR /usr/local/OculusSDK CACHE PATH "Path where to find the Oculus SDK")
 
 ################
 project(ocudump)
@@ -12,6 +12,10 @@ project(ocudump)
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/CMakeModules)
 
 find_package(OculusSDK REQUIRED)
+find_package(Eigen3)
+if(EIGEN3_FOUND)
+    add_definitions(-DUSE_EIGEN)
+endif(EIGEN3_FOUND)
 
 include_directories(src/c/
                     ${CMAKE_CURRENT_BINARY_DIR}/src/c/
@@ -31,14 +35,14 @@ target_link_libraries(dumpTest ocudump_lib)
 # The following code is need to ensue that all objects from the custom static libraries are
 # linked in to the executable, even if they are not referenced from the main program.
 # Without this, static initialization of the ClassFactory does not work.
-IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     target_link_libraries(dumpTest -Wl,--whole-archive)
     target_link_libraries(dumpTest ocudump_lib)
     target_link_libraries(dumpTest -Wl,--no-whole-archive)
-ELSEIF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     target_link_libraries(dumpTest -Wl,-force_load)
     target_link_libraries(dumpTest ocudump_lib)
-ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 ################
 #TARGET: dumpTestDebug
@@ -51,14 +55,14 @@ target_link_libraries(dumpTestDebug ocudump_lib)
 # The following code is need to ensue that all objects from the custom static libraries are
 # linked in to the executable, even if they are not referenced from the main program.
 # Without this, static initialization of the ClassFactory does not work.
-IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     target_link_libraries(dumpTestDebug -Wl,--whole-archive)
     target_link_libraries(dumpTestDebug ocudump_lib)
     target_link_libraries(dumpTestDebug -Wl,--no-whole-archive)
-ELSEIF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     target_link_libraries(dumpTestDebug -Wl,-force_load)
     target_link_libraries(dumpTestDebug ocudump_lib)
-ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 ################
 #TARGET: cython
@@ -71,9 +75,13 @@ ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 #                      ${MPI_C_LIBRARIES}
 #                      ${PYTHON_LIBRARY_DIRS})
 
-add_custom_target(ReplicatePythonSourceTree ALL ${CMAKE_COMMAND} -P
-    ${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules/ReplicatePythonSourceTree.cmake
-    ${CMAKE_CURRENT_BINARY_DIR}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-include(UseCython)  ###cython
-add_subdirectory(src/cython)
+find_package(Cython)
+if(CYTHON_FOUND)
+    add_custom_target(ReplicatePythonSourceTree ALL ${CMAKE_COMMAND} -P
+        ${CMAKE_CURRENT_SOURCE_DIR}/CMakeModules/ReplicatePythonSourceTree.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+    include(UseCython)  ###cython
+    
+    add_subdirectory(src/cython)
+endif(CYTHON_FOUND)

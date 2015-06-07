@@ -92,6 +92,7 @@ FIND_LIBRARY(OCULUS_SDK_LIBRARY NAMES libovr libovr64 ovr HINTS ${OCULUS_SDK_ROO
 # having to compile in debug when not needed
 FIND_LIBRARY(OCULUS_SDK_LIBRARY_DEBUG NAMES libovr${CMAKE_DEBUG_POSTFIX} libovr64${CMAKE_DEBUG_POSTFIX} ovr${CMAKE_DEBUG_POSTFIX} ovr libovr HINTS 
                                                       ${OCULUS_SDK_ROOT_DIR}/LibOVR/Lib/Windows/${_OCULUS_SDK_LIB_ARCH}/Debug/${_OCULUS_MSVC_DIR}
+                                                      ${OCULUS_SDK_ROOT_DIR}/LibOVR/Lib/Windows/${_OCULUS_SDK_LIB_ARCH}/Release/${_OCULUS_MSVC_DIR}
                                                       ${OCULUS_SDK_ROOT_DIR}/LibOVR/Lib/Mac/Debug
                                                       ${OCULUS_SDK_ROOT_DIR}/LibOVR/Lib/Mac/Release
                                                       ${OCULUS_SDK_ROOT_DIR}/LibOVR/Lib/Linux/Debug/${_OCULUS_SDK_LIB_ARCH}

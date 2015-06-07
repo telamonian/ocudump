@@ -37,15 +37,12 @@ void OcudumpBase::getPose()
     if (state.StatusFlags&ovrStatus_PositionTracked && state.StatusFlags&ovrStatus_CameraPoseTracked && state.StatusFlags&ovrStatus_PositionConnected)
     {
         // ...and if it is, load the position data into the pose vector
-//        pose.insert(pose.begin()+3, &state.HeadPose.ThePose.Position.x, &state.HeadPose.ThePose.Position.x+3);
         memcpy(&pose.data()[3], &state.HeadPose.ThePose.Position.x, 3*sizeof(float));
-
         positionTracked = true;
     }
     else
     {
         // ...and if it isn't, fill the position entries in pose with NaN values
-//        pose.insert(pose.begin()+3, nanVec.begin(), nanVec.end());
         memcpy(&pose.data()[3], &nanVec, 3*sizeof(float));
         positionTracked = false;
     }
