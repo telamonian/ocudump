@@ -1,7 +1,7 @@
 #include <cstdio>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <OVR_CAPI_0_5_0.h>
+#include <OVR_CAPI.h>
 #include <unistd.h>
 
 class Tracker {

@@ -5,7 +5,7 @@
 #include <vector>
 #include "Extras/OVR_Math.h"
 #include "ocudump.h"
-#include "OVR_CAPI_0_5_0.h"
+#include "OVR_CAPI.h"
 
 using std::vector;
 
@@ -57,8 +57,15 @@ void Ocudump::init()
 {
     if (ovr_Initialize(NULL))
     {
+        bool result;
+#ifdef OVRSDK5
         hmd = ovrHmd_Create(0);
-        if (!hmd || !ovrHmd_ConfigureTracking(hmd, ovrTrackingCap_Orientation | ovrTrackingCap_MagYawCorrection | ovrTrackingCap_Position, 0))
+        result = hmd ? true : false;
+#elif OVRSDK6
+        ovrResult tmpResult = ovrHmd_Create(0, &hmd);
+        result = (tmpResult==ovrSuccess);
+#endif
+        if (!result || !ovrHmd_ConfigureTracking(hmd, ovrTrackingCap_Orientation | ovrTrackingCap_MagYawCorrection | ovrTrackingCap_Position, 0))
         {
             fprintf(stderr,"Unable to detect Rift head tracker");
             raise(SIGABRT);
@@ -75,8 +82,15 @@ void OcudumpDebug::init()
 {
     if (ovr_Initialize(NULL))
     {
+        bool result;
+#ifdef OVRSDK5
         hmd = ovrHmd_CreateDebug(ovrHmd_DK2);
-        if (!hmd || !ovrHmd_ConfigureTracking(hmd, ovrTrackingCap_Orientation | ovrTrackingCap_MagYawCorrection | ovrTrackingCap_Position, 0))
+        result = hmd ? true : false;
+#elif OVRSDK6
+        ovrResult tmpResult = ovrHmd_CreateDebug(ovrHmd_DK2, &hmd);
+        result = (tmpResult==ovrSuccess);
+#endif
+        if (!result || !ovrHmd_ConfigureTracking(hmd, ovrTrackingCap_Orientation | ovrTrackingCap_MagYawCorrection | ovrTrackingCap_Position, 0))
         {
             fprintf(stderr,"Unable to detect Rift head tracker");
             raise(SIGABRT);

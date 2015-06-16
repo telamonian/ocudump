@@ -1,6 +1,6 @@
 #include <vector>
 #include "Extras/OVR_Math.h"
-#include "OVR_CAPI_0_5_0.h"
+#include "OVR_CAPI.h"
 
 namespace ocudump
 {
