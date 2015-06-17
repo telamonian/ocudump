@@ -6,6 +6,9 @@ A simple, fast C++ library for getting the complete pose information from an Ocu
 - Cython (for the Python bindings)
 - OculusSDK (the official one)
 - Oculus Runtime (make sure your runtime and SDK versions match)
+- On Windows, you will also need
+    - Python (doesn't come preinstalled like on OSX)
+    - Visual Studio (for the compilers)
 
 If are on OSX, I strongly recommend using Homebrew to install CMake and Python, and then using pip to install Cython
 
@@ -26,12 +29,16 @@ If are on OSX, I strongly recommend using Homebrew to install CMake and Python, 
         - `mkdir build`
         - `cd build`
         - `cmake -G "Visual Studio 12 2013"`
+            - You'll probably need to change the above line if you have a different version of Visual Studio
         - `cmake --build . --config Release`
     - for 64-bit build:
         - `mkdir build`
         - `cd build`
         - `cmake -G "Visual Studio 12 2013 Win64"`
-        - `cmake --build . --config Release` 
+            - You'll probably need to change the above line if you have a different version of Visual Studio
+        - `cmake --build . --config Release`
+- The c++ library will now be at `{your_build_directory}\src\c\Release\ocudump_lib.lib`
+- The python module will now be at `{your_build_directory}\src\cython\Release\ocudump.pyd`
 
 # how to test
 - To test the c++ library, after you run `make` in your build directory you can then run
