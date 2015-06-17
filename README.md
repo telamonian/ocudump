@@ -37,8 +37,8 @@ If are on OSX, I strongly recommend using Homebrew to install CMake and Python, 
         - `cmake -G "Visual Studio 12 2013 Win64"`
             - You'll probably need to change the above line if you have a different version of Visual Studio
         - `cmake --build . --config Release`
-- The c++ library will now be at `{your_build_directory}/src/c/Release/ocudump_lib.lib`
-- The python module will now be at `{your_build_directory}/src/cython/Release/ocudump.pyd`
+- The c++ library will now be at `{your_build_directory}\src\c\Release\ocudump_lib.lib`
+- The python module will now be at `{your_build_directory}\src\cython\Release\ocudump.pyd`
 
 # how to test
 - To test the c++ library, after you run `make` in your build directory you can then run
