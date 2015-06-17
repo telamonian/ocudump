@@ -1,5 +1,5 @@
 # ocudump
-A simple, fast C++ library for getting the complete pose information from an Oculus Rift, with Python bindings. Meant to be an easy starting place for Rift-based projects that don't require the rendering functionality of the OculusSDK. Used in the [OcuMol-Leap project](https://github.com/lqtza/OcuMOL_Leap), which adds VR support to PyMol. Tested on OSX, should work on Linux and Windows too.
+A simple, fast C++ library for getting the complete pose information from an Oculus Rift, with Python bindings. Meant to be an easy starting place for Rift-based projects that don't require the rendering functionality of the OculusSDK. Used in the [OcuMol-Leap project](https://github.com/lqtza/OcuMOL_Leap), which adds VR support to PyMol. Tested on OSX and Windows, should work on Linux too.
 
 # dependencies
 - CMake
@@ -9,7 +9,7 @@ A simple, fast C++ library for getting the complete pose information from an Ocu
 
 If are on OSX, I strongly recommend using Homebrew to install CMake and Python, and then using pip to install Cython
 
-# how to build
+# how to build on OSX
 - Get the official OculusSDK and put it in your `/usr/local` directory
 - In the ocudump root, execute the following commands
     - `mkdir build`
@@ -18,6 +18,20 @@ If are on OSX, I strongly recommend using Homebrew to install CMake and Python, 
     - `make`
 - The c++ library will now be at `{your_build_directory}/src/c/libocudump_lib.a`
 - The python module will now be at `{your_build_directory}/src/cython/ocudump.so`
+
+# how to build on Windows
+- Get the official OculusSDK and put it in your `C:\usr\local` directory
+- In the ocudump root, execute the following commands
+    - for 32-bit build:
+        - `mkdir build`
+        - `cd build`
+        - `cmake -G "Visual Studio 12 2013"`
+        - `cmake --build . --config Release`
+    - for 64-bit build:
+        - `mkdir build`
+        - `cd build`
+        - `cmake -G "Visual Studio 12 2013 Win64"`
+        - `cmake --build . --config Release` 
 
 # how to test
 - To test the c++ library, after you run `make` in your build directory you can then run
