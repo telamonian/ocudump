@@ -72,11 +72,12 @@ file(COPY ${init_py} DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${init_py} DESTINATION ${CMAKE_BINARY_DIR}/src)
 file(COPY ${init_py} DESTINATION ${CMAKE_BINARY_DIR}/src/cython)
 
-IF(IS_DIRECTORY ${CMAKE_BINARY_DIR}/src/cython/Release)
+#message(${CMAKE_BINARY_DIR}/src/cython/Release)
+#IF(IS_DIRECTORY ${CMAKE_BINARY_DIR}/src/cython/Release)
     file(COPY ${init_py} DESTINATION ${CMAKE_BINARY_DIR}/src/cython/Release)
-ELSEIF(IS_DIRECTORY ${CMAKE_BINARY_DIR}/src/cython/Debug)
+#ELSEIF(IS_DIRECTORY ${CMAKE_BINARY_DIR}/src/cython/Debug)
     file(COPY ${init_py} DESTINATION ${CMAKE_BINARY_DIR}/src/cython/Debug)
-ENDIF(IS_DIRECTORY ${CMAKE_BINARY_DIR}/src/cython/Release)
+#ENDIF(IS_DIRECTORY ${CMAKE_BINARY_DIR}/src/cython/Release)
 
 # If the pyx file is a C++ file, we should specify that here.
 #set_source_files_properties(
