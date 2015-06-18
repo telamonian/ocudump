@@ -31,11 +31,12 @@ void OcudumpBase::init()
 {
     if (ovrInitializeVersioned())
     {
-        if (!ovrHmdCreateVersioned() || !ovrHmd_ConfigureTracking(hmd, ovrTrackingCap_Orientation | ovrTrackingCap_MagYawCorrection | ovrTrackingCap_Position, 0))
+        if (!ovrHmdCreateVersioned())
         {
             fprintf(stderr,"Unable to detect Rift head tracker");
             raise(SIGABRT);
         }
+		ovrHmd_ConfigureTracking(hmd, ovrTrackingCap_Orientation | ovrTrackingCap_MagYawCorrection | ovrTrackingCap_Position, 0);
     }
     else
     {
