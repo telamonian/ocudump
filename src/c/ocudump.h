@@ -12,7 +12,7 @@ public:
 
     virtual void init();
     virtual void getPose();
-    virtual bool ovrHmdCreateVersioned();
+    virtual bool ovrHmdCreateVersioned()=0;
     virtual bool ovrInitializeVersioned();
 
 public:
@@ -28,9 +28,9 @@ class Ocudump : public OcudumpBase
 {
 public:
     Ocudump();
-    virtual ~Ocudump() {}
+//    virtual ~Ocudump() {}
 
-    virtual void init();
+    virtual bool ovrHmdCreateVersioned();
 };
 
 // derived class for creating an ocudump instance that interfaces with a virtual "debug device" Oculus (rather than a real, plugged in one)
@@ -38,9 +38,8 @@ class OcudumpDebug : public OcudumpBase
 {
 public:
     OcudumpDebug();
-    virtual ~OcudumpDebug() {}
+//    virtual ~OcudumpDebug() {}
 
-    virtual void init();
     virtual bool ovrHmdCreateVersioned();
 };
 }
