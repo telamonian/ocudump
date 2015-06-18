@@ -1,7 +1,14 @@
 #!/usr/bin/env python
 
 from time import sleep
-from src.cython.ocudump import Ocudump
+try:
+    from src.cython.ocudump import Ocudump
+except ImportError:
+    try:
+        from src.cython.Release.ocudump import Ocudump
+    except ImportError:
+        from src.cython.Debug.ocudump import Ocudump
+            
 
 if __name__=='__main__':
     o = Ocudump()

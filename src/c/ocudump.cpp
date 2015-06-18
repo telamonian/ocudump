@@ -58,10 +58,10 @@ void Ocudump::init()
     if (ovr_Initialize(NULL))
     {
         bool result;
-#ifdef OVRSDK5
+#if defined(OVRSDK5)
         hmd = ovrHmd_Create(0);
         result = hmd ? true : false;
-#elif OVRSDK6
+#elif defined(OVRSDK6)
         ovrResult tmpResult = ovrHmd_Create(0, &hmd);
         result = (tmpResult==ovrSuccess);
 #endif
@@ -83,10 +83,10 @@ void OcudumpDebug::init()
     if (ovr_Initialize(NULL))
     {
         bool result;
-#ifdef OVRSDK5
+#if defined(OVRSDK5)
         hmd = ovrHmd_CreateDebug(ovrHmd_DK2);
         result = hmd ? true : false;
-#elif OVRSDK6
+#elif defined(OVRSDK6)
         ovrResult tmpResult = ovrHmd_CreateDebug(ovrHmd_DK2, &hmd);
         result = (tmpResult==ovrSuccess);
 #endif
