@@ -46,13 +46,11 @@ void OcudumpBase::init()
 
 bool OcudumpBase::ovrInitializeVersioned()
 {
-    bool result;
 #if defined(OVRSDK5)
-    result = ovr_Initialize(NULL) ? true : false;
+    return ovr_Initialize(NULL) ? true : false;
 #elif defined(OVRSDK6)
-    result = (ovr_Initialize(NULL)==ovrSuccess);
+    return (ovr_Initialize(NULL)==ovrSuccess);
 #endif
-    return result;
 }
 
 void OcudumpBase::getPose()
@@ -83,14 +81,12 @@ Ocudump::Ocudump(): OcudumpBase()
 
 bool Ocudump::ovrHmdCreateVersioned()
 {
-    bool result;
 #if defined(OVRSDK5)
     hmd = ovrHmd_Create(0);
-    result = hmd ? true : false;
+    return hmd ? true : false;
 #elif defined(OVRSDK6)
-    result = (ovrHmd_Create(0, &hmd)==ovrSuccess);
+    return (ovrHmd_Create(0, &hmd)==ovrSuccess);
 #endif
-    return result;
 }
 
 OcudumpDebug::OcudumpDebug(): OcudumpBase()
@@ -100,13 +96,11 @@ OcudumpDebug::OcudumpDebug(): OcudumpBase()
 
 bool OcudumpDebug::ovrHmdCreateVersioned()
 {
-    bool result;
 #if defined(OVRSDK5)
     hmd = ovrHmd_CreateDebug(ovrHmd_DK2);
-    result = hmd ? true : false;
+    return hmd ? true : false;
 #elif defined(OVRSDK6)
-    result = (ovrHmd_CreateDebug(ovrHmd_DK2, &hmd)==ovrSuccess);
+    return (ovrHmd_CreateDebug(ovrHmd_DK2, &hmd)==ovrSuccess);
 #endif
-    return result;
 }
 }
