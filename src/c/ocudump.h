@@ -10,8 +10,10 @@ public:
     OcudumpBase();
     virtual ~OcudumpBase();
 
-    virtual void init()=0;
+    virtual void init();
     virtual void getPose();
+    virtual bool ovrHmdCreateVersioned();
+    virtual bool ovrInitializeVersioned();
 
 public:
     ovrHmd hmd;
@@ -26,7 +28,7 @@ class Ocudump : public OcudumpBase
 {
 public:
     Ocudump();
-    //virtual ~Ocudump();
+    virtual ~Ocudump() {}
 
     virtual void init();
 };
@@ -36,9 +38,10 @@ class OcudumpDebug : public OcudumpBase
 {
 public:
     OcudumpDebug();
-    //virtual ~OcudumpDebug();
+    virtual ~OcudumpDebug() {}
 
     virtual void init();
+    virtual bool ovrHmdCreateVersioned();
 };
 }
 

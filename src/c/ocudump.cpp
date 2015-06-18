@@ -27,6 +27,46 @@ OcudumpBase::~OcudumpBase()
     ovr_Shutdown();
 }
 
+void OcudumpBase::init()
+{
+    if (ovrInitializeVersioned())
+    {
+        if (!ovrHmdCreateVersioned() || !ovrHmd_ConfigureTracking(hmd, ovrTrackingCap_Orientation | ovrTrackingCap_MagYawCorrection | ovrTrackingCap_Position, 0))
+        {
+            fprintf(stderr,"Unable to detect Rift head tracker");
+            raise(SIGABRT);
+        }
+    }
+    else
+    {
+        fprintf(stderr, "Call to ovr_Initialize failed");
+        raise(SIGABRT);
+    }
+}
+
+bool OcudumpBase::ovrHmdCreateVersioned()
+{
+    bool result;
+#if defined(OVRSDK5)
+    hmd = ovrHmd_Create(0);
+    result = hmd ? true : false;
+#elif defined(OVRSDK6)
+    result = (ovrHmd_Create(0, &hmd)==ovrSuccess);
+#endif
+    return result;
+}
+
+bool OcudumpBase::ovrInitializeVersioned()
+{
+    bool result;
+#if defined(OVRSDK5)
+    result = ovr_Initialize(NULL) ? true : false;
+#elif defined(OVRSDK6)
+    result = (ovr_Initialize(NULL)==ovrSuccess);
+#endif
+    return result;
+}
+
 void OcudumpBase::getPose()
 {
     state = ovrHmd_GetTrackingState(hmd, 0);
@@ -53,70 +93,20 @@ Ocudump::Ocudump(): OcudumpBase()
     init();
 }
 
-void Ocudump::init()
-{
-	bool initResult;
-#if defined(OVRSDK5)
-	initResult = ovr_Initialize(NULL) ? true : false;
-#elif defined(OVRSDK6)
-	initResult = (ovr_Initialize(NULL)==ovrSuccess);
-#endif
-    if (initResult)
-    {
-		bool createResult;
-#if defined(OVRSDK5)
-        hmd = ovrHmd_Create(0);
-        createResult = hmd ? true : false;
-#elif defined(OVRSDK6)
-		createResult = (ovrHmd_Create(0, &hmd)==ovrSuccess);
-#endif
-        if (!createResult || !ovrHmd_ConfigureTracking(hmd, ovrTrackingCap_Orientation | ovrTrackingCap_MagYawCorrection | ovrTrackingCap_Position, 0))
-        {
-            fprintf(stderr,"Unable to detect Rift head tracker");
-            raise(SIGABRT);
-        }
-    }
-	else
-	{
-		fprintf(stderr, "Call to ovr_Initialize failed");
-		raise(SIGABRT);
-	}
-}
-
 OcudumpDebug::OcudumpDebug(): OcudumpBase()
 {
     init();
 }
 
-void OcudumpDebug::init()
+bool OcudumpDebug::ovrHmdCreateVersioned()
 {
-	bool initResult;
+    bool result;
 #if defined(OVRSDK5)
-	initResult = ovr_Initialize(NULL) ? true : false;
+    hmd = ovrHmd_CreateDebug(ovrHmd_DK2);
+    result = hmd ? true : false;
 #elif defined(OVRSDK6)
-	initResult = (ovr_Initialize(NULL)==ovrSuccess);
+    result = (ovrHmd_CreateDebug(ovrHmd_DK2, &hmd)==ovrSuccess);
 #endif
-	if (initResult)
-    {
-        bool result;
-#if defined(OVRSDK5)
-        hmd = ovrHmd_CreateDebug(ovrHmd_DK2);
-        result = hmd ? true : false;
-#elif defined(OVRSDK6)
-        ovrResult tmpResult = ovrHmd_CreateDebug(ovrHmd_DK2, &hmd);
-        result = (tmpResult==ovrSuccess);
-#endif
-        if (!result || !ovrHmd_ConfigureTracking(hmd, ovrTrackingCap_Orientation | ovrTrackingCap_MagYawCorrection | ovrTrackingCap_Position, 0))
-        {
-            fprintf(stderr,"Unable to detect Rift head tracker");
-            raise(SIGABRT);
-        }
-		else fprintf(stderr, "booga");
-    }
-	else
-	{
-		fprintf(stderr, "Call to ovr_Initialize failed");
-		raise(SIGABRT);
-	}
+    return result;
 }
 }
