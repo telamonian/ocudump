@@ -28,13 +28,13 @@ If are on OSX, I strongly recommend using Homebrew to install CMake and Python, 
     - for 32-bit build:
         - `mkdir build`
         - `cd build`
-        - `cmake -G "Visual Studio 12 2013"` ..
+        - `cmake -G "Visual Studio 12 2013" ..`
             - You'll probably need to change the above line if you have a different version of Visual Studio
         - `cmake --build . --config Release`
     - for 64-bit build:
         - `mkdir build`
         - `cd build`
-        - `cmake -G "Visual Studio 12 2013 Win64"` ..
+        - `cmake -G "Visual Studio 12 2013 Win64" ..`
             - You'll probably need to change the above line if you have a different version of Visual Studio
         - `cmake --build . --config Release`
 - The c++ library will now be at `{your_build_directory}\src\c\Release\ocudump_lib.lib`
