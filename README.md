@@ -52,6 +52,7 @@ If are on OSX, I strongly recommend using Homebrew to install CMake and Python, 
 ## testing the c++ lib
 - To test the c++ library, after you run `make` in your build directory you can then run
     - `./dumpTest`
+
 ## testing the python bindings
 - To test the python module, after you run `make ocudump_cython` in your build directory you can then run
     - `python dumpTest.py`
