@@ -88,26 +88,6 @@ class CustomSetupCommand:
         
         if RunProcess(make_cmd, cwd=self.cmakeBuildDir) != 0:
             raise DistutilsSetupError("Error make-ing ocudump build")
-            
-    def _writeLeapConfig(self):
-        '''
-        write config file to set path to leap motion packages
-        '''
-        if self.leapSDKEnvVar not in os.environ:
-            raise EnvironmentError('%s%s' % ('You need to set the %s environment variable before installing ocumol, ' % self.leapSDKEnvVar,
-                                             'e.g. you could run `LEAPSDK_DIR=/usr/local/LeapSDK pip install ocumol`'))
-        leapSDKDir = os.environ.get(self.leapSDKEnvVar)
-        with open('ocumol/leapConfig.py', 'w') as f:
-            f.write("leapPath = '%s'" % os.path.join(leapSDKDir, 'lib'))
-         
-    def _writePymolrc(self):
-        pymolrcPath = os.path.expanduser('~/.pymolrc')
-        ocumolStartBumper = '#'*4 + 'START_OCUMOL_PLUGIN' + '#'*4
-        ocumolEndBumper = '#'*4 + 'END_OCUMOL_PLUGIN' + '#'*4
-        with open(os.path.join(thisScriptDir, 'pymolrc'), 'r') as f:
-            ocumolPluginTxt = f.read()
-        if not ReplaceBtwnLines(pymolrcPath, ocumolStartBumper, ocumolEndBumper, ocumolPluginTxt):
-            AppendBlockToFile(pymolrcPath, ocumolStartBumper, ocumolEndBumper, ocumolPluginTxt)
 
 class CustomDevelopCommand(CustomSetupCommand, develop):
     def run(self):
