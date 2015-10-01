@@ -23,6 +23,7 @@
 *.png
 *.pyc
 *.ptx
+*.egg-info
 
 bak_*
 /.ptp-sync
