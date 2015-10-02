@@ -17,6 +17,7 @@ If are on OSX, I strongly recommend using Homebrew to install CMake and Python, 
 - `cd` to the ocudump root directory
 - run `OCULUS_SDK_ROOT_DIR=<path-to-your-oculusSDK> pip install -e .`
     - Be sure to replace `<path-to-your-oculusSDK>` with the actual path to *your* copy of the Oculus SDK.
+    - If you are running with the `sudo` command, you can pass environment variables by `-E` (at least on OS X), so you would run: `OCULUS_SDK_ROOT_DIR=<path-to-your-oculusSDK> sudo -E pip install -e .`
     - The above command will get `pip` to install ocudump in development mode, meaning that it will create a kind of soft link between your python module directory and the ocudump directory.
   - Eventually ocudump will also be available directly through pypi.
 
