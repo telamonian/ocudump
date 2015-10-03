@@ -4,15 +4,15 @@
 #include <cstring>
 #include <vector>
 #include "Extras/OVR_Math.h"
-#include "ocudump.h"
 #include "OVR_CAPI.h"
+#include "main/ocudump.h"
 
 using std::vector;
 
 float nanArr[] = {NAN, NAN, NAN};
 
-namespace ocudump
-{
+namespace ocudump {
+
 // initialize the static member vector nanVec, used for filling in the appropriate portion of the pose vector with NaN values when the camera fails to track the rift
 vector<float> OcudumpBase::nanVec(nanArr, nanArr + (sizeof(nanArr)/sizeof(nanArr[0])));
 
@@ -27,21 +27,23 @@ OcudumpBase::~OcudumpBase()
     ovr_Shutdown();
 }
 
-void OcudumpBase::init()
+bool OcudumpBase::init()
 {
     if (ovrInitializeVersioned())
     {
         if (!ovrHmdCreateVersioned())
         {
             fprintf(stderr,"Unable to detect Rift head tracker");
-            raise(SIGABRT);
+            return 0;
+//            raise(SIGABRT);
         }
-		ovrHmd_ConfigureTracking(hmd, ovrTrackingCap_Orientation | ovrTrackingCap_MagYawCorrection | ovrTrackingCap_Position, 0);
+		return ovrHmd_ConfigureTracking(hmd, ovrTrackingCap_Orientation | ovrTrackingCap_MagYawCorrection | ovrTrackingCap_Position, 0);
     }
     else
     {
         fprintf(stderr, "Call to ovr_Initialize failed");
-        raise(SIGABRT);
+        return 0;
+//        raise(SIGABRT);
     }
 }
 

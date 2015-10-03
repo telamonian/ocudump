@@ -23,16 +23,19 @@ if(EIGEN3_FOUND)
 endif(EIGEN3_FOUND)
 
 include_directories(src/c/
+                    test/c/
                     ${CMAKE_CURRENT_BINARY_DIR}/src/c/
+                    ${CMAKE_CURRENT_BINARY_DIR}/test/c/
                     ${OCULUS_SDK_INCLUDE_DIRS})
 
 # add subdirectories
 add_subdirectory(src/c)
+add_subdirectory(test/c)
 
 ################
 #TARGET: dumpTest
 ################
-set(dumpTest_src src/c/dumpTest.cpp)
+set(dumpTest_src test/c/dumpTest.cpp)
 
 add_executable(dumpTest ${dumpTest_src})
 target_link_libraries(dumpTest ocudump_lib)
@@ -52,7 +55,7 @@ endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 ################
 #TARGET: dumpTestDebug
 ################
-set(dumpTestDebug_src src/c/dumpTestDebug.cpp)
+set(dumpTestDebug_src test/c/dumpTestDebug.cpp)
 
 add_executable(dumpTestDebug ${dumpTestDebug_src})
 target_link_libraries(dumpTestDebug ocudump_lib)
@@ -89,6 +92,7 @@ if(CYTHON_FOUND)
     include(UseCython)  ###cython
     
     add_subdirectory(src/cython)
+    add_subdirectory(test/python)
 else(CYTHON_FOUND)
     message("Cython not found, python bindings won't be built")
 endif(CYTHON_FOUND)

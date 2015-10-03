@@ -2,15 +2,25 @@
 #include "Extras/OVR_Math.h"
 #include "OVR_CAPI.h"
 
-namespace ocudump
+namespace ocudump {
+
+enum PoseCoord
 {
+    xrot = 0,
+    yrot = 1,
+    zrot = 2,
+    x = 3,
+    y = 4,
+    z = 5
+};
+
 class OcudumpBase
 {
 public:
     OcudumpBase();
     virtual ~OcudumpBase();
 
-    virtual void init();
+    virtual bool init();
     virtual void getPose();
     virtual bool ovrHmdCreateVersioned()=0;
     virtual bool ovrInitializeVersioned();

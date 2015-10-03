@@ -1,4 +1,4 @@
-cdef extern from "ocudump.h" namespace "ocudump":
+cdef extern from "main/ocudump.h" namespace "ocudump":
     cdef cppclass CppOcudump "ocudump::Ocudump":
         CppOcudump()
         void getPose()
@@ -6,7 +6,7 @@ cdef extern from "ocudump.h" namespace "ocudump":
         vector[float] pose
         bool positionTracked
         
-cdef extern from "ocudump.h" namespace "ocudump":
+cdef extern from "main/ocudump.h" namespace "ocudump":
     cdef cppclass CppOcudumpDebug "ocudump::OcudumpDebug":
         CppOcudumpDebug()
         void getPose()
