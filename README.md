@@ -12,54 +12,29 @@ A simple, fast C++ library for getting the complete pose information from an Ocu
 
 If are on OSX, I strongly recommend using Homebrew to install CMake and Python, and then using pip to install Cython
 
-# Build
-## how to build on OSX
-- Get the official OculusSDK and put it in your `/usr/local` directory
-- In the ocudump root, execute the following commands
-    - `mkdir build`
-    - `cd build`
-    - `cmake ..`
-    - `make`
-- The c++ library will now be at `{your_build_directory}/src/c/libocudump_lib.a`
-- The python module will now be at `{your_build_directory}/src/cython/ocudump.so`
-
-## how to build on Windows
-- Get the official OculusSDK and put it in your `C:\usr\local` directory
-- In the ocudump root, execute the following commands
-    - for 32-bit build:
-        - `mkdir build`
-        - `cd build`
-        - `cmake -G "Visual Studio 12 2013" ..`
-            - You'll probably need to change the above line if you have a different version of Visual Studio
-        - `cmake --build . --config Release`
-    - for 64-bit build:
-        - `mkdir build`
-        - `cd build`
-        - `cmake -G "Visual Studio 12 2013 Win64" ..`
-            - You'll probably need to change the above line if you have a different version of Visual Studio
-        - `cmake --build . --config Release`
-- The c++ library will now be at `{your_build_directory}\src\c\Release\ocudump_lib.lib`
-- The python module will now be at `{your_build_directory}\src\cython\Release\ocudump.pyd`
-
-# Install
-## installing the python bindings
-- Follow the Build instructions, then `cd` back to the ocudump root directory.
-- Run `pip install -e .` 
-  - The above command will get `pip` to install ocudump in development mode, meaning that it will create a kind of soft link between your python module directory and the ocudump directory.
+# Build and Install
+- Get the official OculusSDK and put it in a convenient directory
+- `cd` to the ocudump root directory
+- run `OCULUS_SDK_ROOT_DIR=<path-to-your-oculusSDK> pip install -e .`
+    - Be sure to replace `<path-to-your-oculusSDK>` with the actual path to *your* copy of the Oculus SDK.
+    - If you are running with the `sudo` command, you can pass environment variables by `-E` (at least on OS X), so you would run: `OCULUS_SDK_ROOT_DIR=<path-to-your-oculusSDK> sudo -E pip install -e .`
+    - The above command will get `pip` to install ocudump in development mode, meaning that it will create a kind of soft link between your python module directory and the ocudump directory.
   - Eventually ocudump will also be available directly through pypi.
 
 # Test
 ## testing the c++ lib
-- To test the c++ library, after you run `make` in your build directory you can then run
-    - `./dumpTest`
+- Run the `pip` command as described in Build and Install
+- `cd` to the newly-created build directory within your ocudump root dir
+- run `./dumpTest`
 
 ## testing the python bindings
-- To test the python module, after you run `make ocudump_cython` in your build directory you can then run
-    - `python dumpTest.py`
+- Run the `pip` command as described in Build and Install
+- `cd` to the newly-created build directory within your ocudump root dir
+- run `python dumpTest.py`
 
 # Instructions
 ## how to use the python bindings
-- Follow the relevant Build and Install instructions
+- Follow the Build and Install instructions
 - Import the Ocudump class from the ocudump module:
     - `from ocudump import Ocudump`
 - Create an Ocudump instance (this will also initialize your Oculus Rift and it's tracking camera, so be sure to have them both plugged in at this point):
