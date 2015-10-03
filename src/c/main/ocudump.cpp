@@ -5,8 +5,11 @@
 #include <vector>
 #include "Extras/OVR_Math.h"
 #include "OVR_CAPI.h"
+
+#include "animate/animate.h"
 #include "main/ocudump.h"
 
+using ocudump::animate::Animate;
 using std::vector;
 
 float nanArr[] = {NAN, NAN, NAN};
@@ -74,6 +77,15 @@ void OcudumpBase::getPose()
         // ...and if it isn't, fill the position entries in pose with NaN values
         memcpy(&pose.data()[3], &nanVec, 3*sizeof(float));
         positionTracked = false;
+    }
+}
+
+void OcudumpBase::getPoseAnimated()
+{
+    getPose();
+    for (ocudump::animate::Animate::iterator it=animate.begin();it!=animate.end();it++)
+    {
+        pose[it->first]+=it->second.getElem();
     }
 }
 

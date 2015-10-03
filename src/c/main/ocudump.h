@@ -1,18 +1,13 @@
+#ifndef MAIN_OCUDUMP_H_
+#define MAIN_OCUDUMP_H_
+
 #include <vector>
 #include "Extras/OVR_Math.h"
 #include "OVR_CAPI.h"
 
-namespace ocudump {
+#include "animate/animate.h"
 
-enum PoseCoord
-{
-    xrot = 0,
-    yrot = 1,
-    zrot = 2,
-    x = 3,
-    y = 4,
-    z = 5
-};
+namespace ocudump {
 
 class OcudumpBase
 {
@@ -22,16 +17,20 @@ public:
 
     virtual bool init();
     virtual void getPose();
+    virtual void getPoseAnimated();
     virtual bool ovrHmdCreateVersioned()=0;
     virtual bool ovrInitializeVersioned();
 
 public:
-    ovrHmd hmd;
-    static std::vector<float> nanVec;
     OVR::Quatf orientation;
     std::vector<float> pose;
     bool positionTracked;
     ovrTrackingState state;
+
+protected:
+    ocudump::animate::Animate animate;
+    ovrHmd hmd;
+    static std::vector<float> nanVec;
 };
 
 class Ocudump : public OcudumpBase
@@ -54,3 +53,4 @@ public:
 };
 }
 
+#endif /* MAIN_OCUDUMP_H_ */

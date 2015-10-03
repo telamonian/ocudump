@@ -18,7 +18,8 @@ Animate::~Animate()
 
 void Animate::initElem(ocudump::PoseCoord poseCoord, float low, float high, int period)
 {
-
+    AnimateElem elem(low, high, period);
+    elemMap[poseCoord] = elem;
 }
 
 std::vector<float> Animate::getPoseOffset()
