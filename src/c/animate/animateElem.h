@@ -13,12 +13,19 @@ class AnimateElem
 public:
 //    AnimateElem();
     AnimateElem(float low=-1, float high=1, int period=600);
+    AnimateElem(AnimateElem& elem);
+    AnimateElem(const AnimateElem& elem);
     ~AnimateElem();
 
+    AnimateElem& operator=(AnimateElem tmp);
+
     float getElem();
+    // testing function to look at current elem value without altering anything (ie, counter, etc)
+    float peekElem();
 
 private:
     void init();
+    void fixBaseline();
 
 public:
     float low;
@@ -27,8 +34,9 @@ public:
 
 private:
     int counter;
+    float* currentBaseline;
     int sign;
-    int step;
+    float step;
 };
 
 typedef std::map<ocudump::PoseCoord,AnimateElem> ElemMap;

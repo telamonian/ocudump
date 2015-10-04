@@ -18,6 +18,8 @@ public:
 
     void initElem(ocudump::PoseCoord poseCoord, float low, float high, int period);
     std::vector<float> getPoseOffset();
+    // testing function to look at current offset value without altering anything (ie, elems' counters, etc)
+    std::vector<float> peekPoseOffset();
 
     // iterators
     typedef ElemMap::iterator iterator;

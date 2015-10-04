@@ -62,21 +62,41 @@ bool OcudumpBase::ovrInitializeVersioned()
 void OcudumpBase::getPose()
 {
     state = ovrHmd_GetTrackingState(hmd, 0);
+    _getPoseOrientation();
+    _getPosePosition();
+//    // convert c-api quaternion to cpp-api quaternion so we can do the GetEulerAngles call bellow
+//    orientation = state.HeadPose.ThePose.Orientation;
+//    orientation.GetEulerAngles<OVR::Axis_X,OVR::Axis_Y,OVR::Axis_Z>(pose.data(),pose.data()+1,pose.data()+2);
+//    // check to see if the camera is currently tracking the rift...
+//    if (state.StatusFlags&ovrStatus_PositionTracked && state.StatusFlags&ovrStatus_CameraPoseTracked && state.StatusFlags&ovrStatus_PositionConnected)
+//    {
+//        // ...and if it is, load the position data into the pose vector
+//        memcpy(&pose.data()[3], &state.HeadPose.ThePose.Position.x, 3*sizeof(float));
+//        positionTracked = true;
+//    }
+//    else
+//    {
+//        // ...and if it isn't, fill the position entries in pose with NaN values
+//        memcpy(&pose.data()[3], &nanVec, 3*sizeof(float));
+//        positionTracked = false;
+//    }
+}
+
+void OcudumpBase::_getPoseOrientation()
+{
     // convert c-api quaternion to cpp-api quaternion so we can do the GetEulerAngles call bellow
     orientation = state.HeadPose.ThePose.Orientation;
     orientation.GetEulerAngles<OVR::Axis_X,OVR::Axis_Y,OVR::Axis_Z>(pose.data(),pose.data()+1,pose.data()+2);
+}
+
+void OcudumpBase::_getPosePosition()
+{
     // check to see if the camera is currently tracking the rift...
     if (state.StatusFlags&ovrStatus_PositionTracked && state.StatusFlags&ovrStatus_CameraPoseTracked && state.StatusFlags&ovrStatus_PositionConnected)
     {
         // ...and if it is, load the position data into the pose vector
         memcpy(&pose.data()[3], &state.HeadPose.ThePose.Position.x, 3*sizeof(float));
         positionTracked = true;
-    }
-    else
-    {
-        // ...and if it isn't, fill the position entries in pose with NaN values
-        memcpy(&pose.data()[3], &nanVec, 3*sizeof(float));
-        positionTracked = false;
     }
 }
 
@@ -87,6 +107,18 @@ void OcudumpBase::getPoseAnimated()
     {
         pose[it->first]+=it->second.getElem();
     }
+}
+
+void OcudumpBase::getPrintline(char* printLine)
+{
+    sprintf(printLine, "Current pose - pitch %0.2f, yaw %0.2f, roll %0.2f, x %0.2f, y %0.2f, z %0.2f\n",pose[0],pose[1],pose[2],pose[3],pose[4],pose[5]);
+}
+
+void OcudumpBase::print()
+{
+    char printline[256];
+    getPrintline(printline);
+    printf(printline);
 }
 
 Ocudump::Ocudump(): OcudumpBase()

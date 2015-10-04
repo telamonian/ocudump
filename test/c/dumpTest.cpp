@@ -1,3 +1,4 @@
+#include <iostream>
 #ifdef LINUX
     #include <unistd.h>
 #endif
@@ -6,11 +7,14 @@
 #endif
 #include <vector>
 
+#include "enum.h"
 #include "main/ocudump.h"
 
 using ocudump::Ocudump;
 using ocudump::OcudumpBase;
 using ocudump::OcudumpDebug;
+using std::cout;
+using std::endl;
 using std::vector;
 
 void MySleep(int sleepMs)
@@ -23,18 +27,19 @@ void MySleep(int sleepMs)
 #endif
 }
 
+// declare option variables
 bool debug;
 vector<int> poseCoords;
 
-void parseIntListArg(vector<int> & list, char* arg)
+void parseIntListArg(vector<int>& list, char* arg)
 {
     list.clear();
-    char * argbuf = new char[strlen(arg)+1];
+    char* argbuf = new char[strlen(arg)+1];
     strcpy(argbuf,arg);
-    char * pch = strtok(argbuf," ,;:\"");
+    char* pch = strtok(argbuf," ,;:\"");
     while (pch != NULL)
     {
-        char * rangeDelimiter;
+        char* rangeDelimiter;
         if ((rangeDelimiter=strstr(pch,"-")) != NULL)
         {
             *rangeDelimiter='\0';
@@ -67,7 +72,6 @@ void parseArguments(int argc, char** argv)
         //See if the user is trying to run in debug mode
         if (strcmp(option, "-d") == 0 || strcmp(option, "--debug") == 0) {
             debug = true;
-            break;
         }
 
         //See if the user is trying to set animations on the pose coordingates.
@@ -84,15 +88,17 @@ void parseArguments(int argc, char** argv)
 
 int main(int argc, char** argv)
 {
+    parseArguments(argc, argv);
+
     bool animateOcu = false;
-    OcudumpBase* ocudump;
+    OcudumpBase* ocudu;
 
     if (debug) {
-        ocudump = new OcudumpDebug();
+        ocudu = new OcudumpDebug();
     }
     else
     {
-        ocudump = new Ocudump();
+        ocudu = new Ocudump();
     }
 
     if (poseCoords.size() > 0)
@@ -100,14 +106,26 @@ int main(int argc, char** argv)
         animateOcu = true;
         for (vector<int>::iterator it=poseCoords.begin();it!=poseCoords.end();it++)
         {
-            ocudump->animate.initElem(*it, -1, 1, 600);
+            ocudu->animate.initElem(static_cast<ocudump::PoseCoord>(*it), -1, 1, 6);
         }
     }
 
-    for (int i = 0; i < 1e6; ++i) {
-        animateOcu ? ocudump->getPoseAnimated() : ocudump->getPose();
-        printf("Current pose - pitch %0.2f, yaw %0.2f, roll %0.2f, x %0.2f, y %0.2f, z %0.2f\n",ocudump->pose[0],ocudump->pose[1],ocudump->pose[2],ocudump->pose[3],ocudump->pose[4],ocudump->pose[5]);
-        printf("len of pose %lu", ocudump->pose.size());
+    for (int i = 0; i < 1e3; ++i) {
+        animateOcu ? ocudu->getPoseAnimated() : ocudu->getPose();
+        ocudu->print();
+//        printf("Current pose - pitch %0.2f, yaw %0.2f, roll %0.2f, x %0.2f, y %0.2f, z %0.2f\n",ocudu->pose[0],ocudu->pose[1],ocudu->pose[2],ocudu->pose[3],ocudu->pose[4],ocudu->pose[5]);
+//        printf("len of pose %lu", ocudu->pose.size());
         MySleep(1e3/60);
     }
 }
+
+/**
+ * Prints the usage for the program.
+ */
+void printUsage(int argc, char** argv)
+{
+    cout << "Usage: dumpTest [-d] [-c]" << endl;
+    cout << "-d starts in debug mode, which will run properly without a connected rift" << endl;
+    cout << "-c allows you to specify a list or range (eg 0,1,2 or 0-2) of pose coordinates that will become animated" << endl;
+}
+

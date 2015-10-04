@@ -16,19 +16,26 @@ public:
     virtual ~OcudumpBase();
 
     virtual bool init();
+    virtual bool ovrInitializeVersioned();
+    virtual bool ovrHmdCreateVersioned()=0;
+
     virtual void getPose();
     virtual void getPoseAnimated();
-    virtual bool ovrHmdCreateVersioned()=0;
-    virtual bool ovrInitializeVersioned();
+    virtual void getPrintline(char*);
+    virtual void print();
+
+protected:
+    virtual void _getPoseOrientation();
+    virtual void _getPosePosition();
 
 public:
+    ocudump::animate::Animate animate;
     OVR::Quatf orientation;
     std::vector<float> pose;
     bool positionTracked;
     ovrTrackingState state;
 
 protected:
-    ocudump::animate::Animate animate;
     ovrHmd hmd;
     static std::vector<float> nanVec;
 };
@@ -37,7 +44,6 @@ class Ocudump : public OcudumpBase
 {
 public:
     Ocudump();
-//    virtual ~Ocudump() {}
 
     virtual bool ovrHmdCreateVersioned();
 };
@@ -47,9 +53,11 @@ class OcudumpDebug : public OcudumpBase
 {
 public:
     OcudumpDebug();
-//    virtual ~OcudumpDebug() {}
 
     virtual bool ovrHmdCreateVersioned();
+
+protected:
+    virtual void _getPosePosition() {}
 };
 }
 

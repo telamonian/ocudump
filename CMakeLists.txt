@@ -8,6 +8,20 @@ set(OCULUS_SDK_ROOT_DIR /usr/local/OculusSDK CACHE PATH "Path where to find the 
 project(ocudump)
 ################
 
+IF(DEFINED CUSTOM_C_FLAGS)
+    SET(CMAKE_C_FLAGS ${CUSTOM_C_FLAGS})
+    MESSAGE(STATUS "Using custom C flags: ${CMAKE_C_FLAGS}")
+ELSE(DEFINED CUSTOM_C_FLAGS)
+    SET(CMAKE_C_FLAGS "-g -m64 -fPIC -fmessage-length=0")    #-Wall
+ENDIF(DEFINED CUSTOM_C_FLAGS)
+
+IF(DEFINED CUSTOM_CXX_FLAGS)
+    SET(CMAKE_CXX_FLAGS ${CUSTOM_CXX_FLAGS})
+    MESSAGE(STATUS "Using custom C++ flags: ${CMAKE_CXX_FLAGS}")
+ELSE(DEFINED CUSTOM_CXX_FLAGS)
+    SET(CMAKE_CXX_FLAGS "-g -m64 -fPIC -fmessage-length=0")    #-Wall
+ENDIF(DEFINED CUSTOM_CXX_FLAGS)
+
 # package finding stuff
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/CMakeModules)
 
@@ -55,22 +69,22 @@ endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 ################
 #TARGET: dumpTestDebug
 ################
-set(dumpTestDebug_src test/c/dumpTestDebug.cpp)
-
-add_executable(dumpTestDebug ${dumpTestDebug_src})
-target_link_libraries(dumpTestDebug ocudump_lib)
+#set(dumpTestDebug_src test/c/dumpTestDebug.cpp)
+#
+#add_executable(dumpTestDebug ${dumpTestDebug_src})
+#target_link_libraries(dumpTestDebug ocudump_lib)
 
 # The following code is need to ensue that all objects from the custom static libraries are
 # linked in to the executable, even if they are not referenced from the main program.
 # Without this, static initialization of the ClassFactory does not work.
-if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-    target_link_libraries(dumpTestDebug -Wl,--whole-archive)
-    target_link_libraries(dumpTestDebug ocudump_lib)
-    target_link_libraries(dumpTestDebug -Wl,--no-whole-archive)
-elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    target_link_libraries(dumpTestDebug -Wl,-force_load)
-    target_link_libraries(dumpTestDebug ocudump_lib)
-endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+#if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+#    target_link_libraries(dumpTestDebug -Wl,--whole-archive)
+#    target_link_libraries(dumpTestDebug ocudump_lib)
+#    target_link_libraries(dumpTestDebug -Wl,--no-whole-archive)
+#elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+#    target_link_libraries(dumpTestDebug -Wl,-force_load)
+#    target_link_libraries(dumpTestDebug ocudump_lib)
+#endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 ################
 #TARGET: cython
