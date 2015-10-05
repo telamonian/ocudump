@@ -148,5 +148,11 @@ bool OcudumpDebug::ovrHmdCreateVersioned()
 #endif
 }
 
+void OcudumpDebug::_getPosePosition()
+{
+    memcpy(&pose.data()[3], &state.HeadPose.ThePose.Position.x, 3*sizeof(float));
+    positionTracked = true;
+}
+
 }
 }

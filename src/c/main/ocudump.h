@@ -60,7 +60,7 @@ public:
     virtual bool ovrHmdCreateVersioned();
 
 protected:
-    virtual void _getPosePosition() {}
+    virtual void _getPosePosition();
 };
 
 }
