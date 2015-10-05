@@ -5,9 +5,11 @@
 #include "Extras/OVR_Math.h"
 #include "OVR_CAPI.h"
 
+#include "enum.h"
 #include "animate/animate.h"
 
 namespace ocudump {
+namespace main{
 
 class OcudumpBase
 {
@@ -16,6 +18,7 @@ public:
     virtual ~OcudumpBase();
 
     virtual bool init();
+    virtual void initAnimateElement(ocudump::PoseCoord poseCoord, float low, float high, int period);
     virtual bool ovrInitializeVersioned();
     virtual bool ovrHmdCreateVersioned()=0;
 
@@ -59,6 +62,8 @@ public:
 protected:
     virtual void _getPosePosition() {}
 };
+
+}
 }
 
 #endif /* MAIN_OCUDUMP_H_ */

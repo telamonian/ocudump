@@ -31,7 +31,7 @@
 # The sample paths set with the CMake include_directories() command will be used
 # for include directories to search for *.pxd when running the Cython complire.
 #
-# Cache variables that effect the behavior include:
+# Cache variables that affect the behavior include:
 #
 #  CYTHON_ANNOTATE
 #  CYTHON_NO_DOCSTRINGS

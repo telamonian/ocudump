@@ -9,12 +9,14 @@
 #include "animate/animate.h"
 #include "main/ocudump.h"
 
+using ocudump::PoseCoord;
 using ocudump::animate::Animate;
 using std::vector;
 
 float nanArr[] = {NAN, NAN, NAN};
 
 namespace ocudump {
+namespace main {
 
 // initialize the static member vector nanVec, used for filling in the appropriate portion of the pose vector with NaN values when the camera fails to track the rift
 vector<float> OcudumpBase::nanVec(nanArr, nanArr + (sizeof(nanArr)/sizeof(nanArr[0])));
@@ -50,6 +52,11 @@ bool OcudumpBase::init()
     }
 }
 
+void OcudumpBase::initAnimateElement(PoseCoord poseCoord, float low, float high, int period)
+{
+    animate.initElem(poseCoord, low, high, period);
+}
+
 bool OcudumpBase::ovrInitializeVersioned()
 {
 #if defined(OVRSDK5)
@@ -64,22 +71,6 @@ void OcudumpBase::getPose()
     state = ovrHmd_GetTrackingState(hmd, 0);
     _getPoseOrientation();
     _getPosePosition();
-//    // convert c-api quaternion to cpp-api quaternion so we can do the GetEulerAngles call bellow
-//    orientation = state.HeadPose.ThePose.Orientation;
-//    orientation.GetEulerAngles<OVR::Axis_X,OVR::Axis_Y,OVR::Axis_Z>(pose.data(),pose.data()+1,pose.data()+2);
-//    // check to see if the camera is currently tracking the rift...
-//    if (state.StatusFlags&ovrStatus_PositionTracked && state.StatusFlags&ovrStatus_CameraPoseTracked && state.StatusFlags&ovrStatus_PositionConnected)
-//    {
-//        // ...and if it is, load the position data into the pose vector
-//        memcpy(&pose.data()[3], &state.HeadPose.ThePose.Position.x, 3*sizeof(float));
-//        positionTracked = true;
-//    }
-//    else
-//    {
-//        // ...and if it isn't, fill the position entries in pose with NaN values
-//        memcpy(&pose.data()[3], &nanVec, 3*sizeof(float));
-//        positionTracked = false;
-//    }
 }
 
 void OcudumpBase::_getPoseOrientation()
@@ -97,6 +88,12 @@ void OcudumpBase::_getPosePosition()
         // ...and if it is, load the position data into the pose vector
         memcpy(&pose.data()[3], &state.HeadPose.ThePose.Position.x, 3*sizeof(float));
         positionTracked = true;
+    }
+    else
+    {
+//        // ...and if it isn't, fill the position entries in pose with NaN values
+//        memcpy(&pose.data()[3], &nanVec, 3*sizeof(float));
+        positionTracked = false;
     }
 }
 
@@ -149,5 +146,7 @@ bool OcudumpDebug::ovrHmdCreateVersioned()
 #elif defined(OVRSDK6)
     return (ovrHmd_CreateDebug(ovrHmd_DK2, &hmd)==ovrSuccess);
 #endif
+}
+
 }
 }

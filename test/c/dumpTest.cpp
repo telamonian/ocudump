@@ -10,9 +10,9 @@
 #include "enum.h"
 #include "main/ocudump.h"
 
-using ocudump::Ocudump;
-using ocudump::OcudumpBase;
-using ocudump::OcudumpDebug;
+using ocudump::main::Ocudump;
+using ocudump::main::OcudumpBase;
+using ocudump::main::OcudumpDebug;
 using std::cout;
 using std::endl;
 using std::vector;
