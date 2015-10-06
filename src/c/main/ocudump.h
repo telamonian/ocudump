@@ -57,6 +57,7 @@ class OcudumpDebug : public OcudumpBase
 public:
     OcudumpDebug();
 
+    virtual bool init();
     virtual bool ovrHmdCreateVersioned();
 
 protected:

@@ -11,7 +11,9 @@ cdef extern from "enum.h" namespace "ocudump":
 cdef extern from "main/ocudump.h" namespace "ocudump::main":
     cdef cppclass CppOcudump "ocudump::main::Ocudump":
         CppOcudump()
+        bool init()
         void initAnimateElement(PoseCoord,float,float,int)
+        
         void getPose()
         void getPoseAnimated()
         void ocudumpPrint 'print' ()
@@ -22,7 +24,9 @@ cdef extern from "main/ocudump.h" namespace "ocudump::main":
 cdef extern from "main/ocudump.h" namespace "ocudump::main":
     cdef cppclass CppOcudumpDebug "ocudump::main::OcudumpDebug":
         CppOcudumpDebug()
+        bool init()
         void initAnimateElement(PoseCoord,float,float,int)
+        
         void getPose()
         void getPoseAnimated()
         void ocudumpPrint 'print' ()

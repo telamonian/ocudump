@@ -15,7 +15,6 @@ except ImportError:
         from src.cython.Debug.ocudump import OcudumpDebug
 
 # globals for cmd options
-animateOcudump = False
 debug = False
 poseCoords = []
 
@@ -49,13 +48,15 @@ def printUsage():
     print "-c allows you to specify a list or range (eg 0,1,2 or 0-2) of pose coordinates that will become animated\n"
 
 if __name__=='__main__':
-    global animateOcudump
+    animateOcudump = False
     parseArgs(sys.argv)
     
     if debug:
         o = OcudumpDebug()
     else:
         o = Ocudump()
+    if not o.init():
+        sys.exit()
     
     if len(poseCoords) > 0:
         animateOcudump = True

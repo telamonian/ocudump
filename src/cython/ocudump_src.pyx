@@ -7,6 +7,9 @@ cdef class Ocudump:
         del self.thisptr
 
 # functions
+    def init(self):
+        return self.thisptr.init()
+
     def initAnimateElement(self, PoseCoord poseCoord, float low, float high, int period):
         self.thisptr.initAnimateElement(poseCoord, low, high, period)
     
@@ -21,11 +24,13 @@ cdef class Ocudump:
 
 # properties
     property pose:
-        def __get__(self): return self.thisptr.pose
+        def __get__(self): 
+            return self.thisptr.pose
 #         def __set__(self, pose): self.thisptr.pose = pose
         
     property positionTracked:
-        def __get__(self): return self.thisptr.positionTracked
+        def __get__(self): 
+            return self.thisptr.positionTracked
         
 cdef class OcudumpDebug:
 # boilerplate
@@ -36,6 +41,9 @@ cdef class OcudumpDebug:
         del self.thisptr
     
 # functions
+    def init(self):
+        return self.thisptr.init()
+    
     def initAnimateElement(self, PoseCoord poseCoord, float low, float high, int period):
         self.thisptr.initAnimateElement(poseCoord, low, high, period)
     
@@ -50,7 +58,9 @@ cdef class OcudumpDebug:
 
 # properties
     property pose:
-        def __get__(self): return self.thisptr.pose
+        def __get__(self): 
+            return self.thisptr.pose
         
     property positionTracked:
-        def __get__(self): return self.thisptr.positionTracked
+        def __get__(self): 
+            return self.thisptr.positionTracked

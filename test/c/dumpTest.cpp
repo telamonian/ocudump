@@ -100,6 +100,7 @@ int main(int argc, char** argv)
     {
         ocudu = new Ocudump();
     }
+    ocudu->init();
 
     if (poseCoords.size() > 0)
     {
@@ -113,10 +114,10 @@ int main(int argc, char** argv)
     for (int i = 0; i < 1e3; ++i) {
         animateOcu ? ocudu->getPoseAnimated() : ocudu->getPose();
         ocudu->print();
-//        printf("Current pose - pitch %0.2f, yaw %0.2f, roll %0.2f, x %0.2f, y %0.2f, z %0.2f\n",ocudu->pose[0],ocudu->pose[1],ocudu->pose[2],ocudu->pose[3],ocudu->pose[4],ocudu->pose[5]);
-//        printf("len of pose %lu", ocudu->pose.size());
         MySleep(1e3/60);
     }
+
+    delete ocudu;
 }
 
 /**
