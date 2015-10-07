@@ -4,15 +4,12 @@ from time import sleep
 
 # t_e block accounts for path differences on windows
 try:
-    from src.cython.ocudump import Ocudump
-    from src.cython.ocudump import OcudumpDebug
+    from src.cython.ocudump import Ocudump, OcudumpDebug
 except ImportError:
     try:
-        from src.cython.Release.ocudump import Ocudump
-        from src.cython.Release.ocudump import OcudumpDebug
+        from src.cython.Release.ocudump import Ocudump, OcudumpDebug
     except ImportError:
-        from src.cython.Debug.ocudump import Ocudump
-        from src.cython.Debug.ocudump import OcudumpDebug
+        from src.cython.Debug.ocudump import Ocudump, OcudumpDebug
 
 # globals for cmd options
 debug = False

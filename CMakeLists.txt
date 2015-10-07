@@ -66,37 +66,6 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     target_link_libraries(dumpTest ocudump_lib)
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
-################
-#TARGET: dumpTestDebug
-################
-#set(dumpTestDebug_src test/c/dumpTestDebug.cpp)
-#
-#add_executable(dumpTestDebug ${dumpTestDebug_src})
-#target_link_libraries(dumpTestDebug ocudump_lib)
-
-# The following code is need to ensue that all objects from the custom static libraries are
-# linked in to the executable, even if they are not referenced from the main program.
-# Without this, static initialization of the ClassFactory does not work.
-#if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-#    target_link_libraries(dumpTestDebug -Wl,--whole-archive)
-#    target_link_libraries(dumpTestDebug ocudump_lib)
-#    target_link_libraries(dumpTestDebug -Wl,--no-whole-archive)
-#elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-#    target_link_libraries(dumpTestDebug -Wl,-force_load)
-#    target_link_libraries(dumpTestDebug ocudump_lib)
-#endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-
-################
-#TARGET: cython
-################
-#set(CYTHON_OTHER_LIBS ${CMAKE_THREAD_LIBS_INIT}
-#                      ${libsbml_LIBRARIES}
-#                      ${PROTOBUF_LIBRARIES}
-#                      ${HDF5_LIBRARIES}
-#                      ${HDF5_HL_LIBRARIES}
-#                      ${MPI_C_LIBRARIES}
-#                      ${PYTHON_LIBRARY_DIRS})
-
 find_package(Cython)
 if(CYTHON_FOUND)
     add_custom_target(ReplicatePythonSourceTree ALL ${CMAKE_COMMAND} -P
