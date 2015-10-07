@@ -60,6 +60,9 @@ public:
     virtual bool init();
     virtual bool ovrHmdCreateVersioned();
 
+    virtual void getPose();
+    virtual void getPoseAnimated();
+
 protected:
     virtual void _getPosePosition();
 };

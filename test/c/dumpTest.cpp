@@ -112,7 +112,7 @@ int main(int argc, char** argv)
     }
 
     for (int i = 0; i < 1e3; ++i) {
-        animateOcu ? ocudu->getPoseAnimated() : ocudu->getPose();
+        ocudu->getPose();
         ocudu->print();
         MySleep(1e3/60);
     }

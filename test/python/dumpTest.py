@@ -64,7 +64,6 @@ if __name__=='__main__':
             o.initAnimateElement(poseCoord, -1, 1, 60)
     
     for i in range(int(1e3)):
-        o.getPoseAnimated() if animateOcudump else o.getPose()
+        o.getPose()
         o.printInfo()
-#         print("Current pose - pitch %0.2f, yaw %0.2f, roll %0.2f, x %0.2f, y %0.2f, z %0.2f" % tuple(o.pose))
         sleep(1/60)

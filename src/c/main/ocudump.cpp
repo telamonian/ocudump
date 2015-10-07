@@ -100,7 +100,7 @@ void OcudumpBase::_getPosePosition()
 void OcudumpBase::getPoseAnimated()
 {
     getPose();
-    for (ocudump::animate::Animate::iterator it=animate.begin();it!=animate.end();it++)
+    for (Animate::iterator it=animate.begin();it!=animate.end();it++)
     {
         pose[it->first]+=it->second.getElem();
     }
@@ -163,6 +163,23 @@ bool OcudumpDebug::ovrHmdCreateVersioned()
 #elif defined(OVRSDK6)
     return (ovrHmd_CreateDebug(ovrHmd_DK2, &hmd)==ovrSuccess);
 #endif
+}
+
+void OcudumpDebug::getPose()
+{
+    // can't call the base class version since it's pure virtual... le sigh
+    state = ovrHmd_GetTrackingState(hmd, 0);
+    _getPoseOrientation();
+    _getPosePosition();
+    for (Animate::iterator it=animate.begin();it!=animate.end();it++)
+    {
+        pose[it->first]+=it->second.getElem();
+    }
+}
+
+void OcudumpDebug::getPoseAnimated()
+{
+    getPose();
 }
 
 void OcudumpDebug::_getPosePosition()
